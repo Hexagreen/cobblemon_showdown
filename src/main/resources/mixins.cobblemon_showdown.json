@@ -1,0 +1,24 @@
+{
+  "required": true,
+  "package": "com.newbulaco.showdown.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "minVersion": "0.8",
+  "refmap": "mixins.cobblemon_showdown.refmap.json",
+  "plugin": "com.newbulaco.showdown.mixin.ShowdownMixinPlugin",
+  "client": [
+    "client.PCGUIMixin",
+    "client.BattleSwitchPokemonSelectionMixin",
+    "client.ItemStackMixin"
+  ],
+  "mixins": [
+    "GraalShowdownServiceMixin",
+    "DropTableMixin",
+    "AbilityMixin",
+    "SideStartInstructionMixin",
+    "FieldStartInstructionMixin",
+    "FieldEndInstructionMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
