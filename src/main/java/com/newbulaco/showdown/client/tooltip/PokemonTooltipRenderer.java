@@ -6,7 +6,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.Screen;
+import com.newbulaco.showdown.client.ShowdownKeybinds;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
@@ -25,7 +25,7 @@ public class PokemonTooltipRenderer {
     public static void renderTooltip(GuiGraphics graphics, Pokemon pokemon, int mouseX, int mouseY, boolean requireShift) {
         if (pokemon == null) return;
 
-        if (requireShift && !Screen.hasShiftDown()) {
+        if (requireShift && !ShowdownKeybinds.isShowInfoDown()) {
             return;
         }
 
@@ -33,12 +33,15 @@ public class PokemonTooltipRenderer {
 
         addBasicInfo(tooltipLines, pokemon);
 
-        // when requireShift is true, shift is already held
-        if (Screen.hasShiftDown()) {
+        if (ShowdownKeybinds.isShowInfoDown()) {
             addDetailedInfo(tooltipLines, pokemon);
         } else {
-            tooltipLines.add(Component.literal("Hold SHIFT for more info")
-                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC));
+            tooltipLines.add(Component.literal("Hold ")
+                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
+                .append(Component.literal(ShowdownKeybinds.getShowInfoKeyName())
+                    .withStyle(ChatFormatting.YELLOW, ChatFormatting.ITALIC))
+                .append(Component.literal(" for more info")
+                    .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)));
         }
 
         graphics.renderTooltip(
@@ -68,13 +71,13 @@ public class PokemonTooltipRenderer {
         lines.add(Component.literal("Type: ").withStyle(ChatFormatting.GRAY)
             .append(Component.literal(typeStr.toString()).withStyle(ChatFormatting.AQUA)));
 
-        String abilityName = pokemon.getAbility() != null ? pokemon.getAbility().getDisplayName() : "";
+        String abilityKey = pokemon.getAbility() != null ? pokemon.getAbility().getDisplayName() : "";
         lines.add(Component.literal("Ability: ").withStyle(ChatFormatting.GRAY)
-            .append(Component.literal(abilityName).withStyle(ChatFormatting.GOLD)));
+            .append(Component.translatable(abilityKey).withStyle(ChatFormatting.GOLD)));
 
-        String natureName = pokemon.getNature().getDisplayName();
+        String natureKey = pokemon.getNature().getDisplayName();
         lines.add(Component.literal("Nature: ").withStyle(ChatFormatting.GRAY)
-            .append(Component.literal(natureName).withStyle(ChatFormatting.GREEN)));
+            .append(Component.translatable(natureKey).withStyle(ChatFormatting.GREEN)));
 
         lines.add(Component.literal("Stats: ").withStyle(ChatFormatting.GRAY)
             .append(Component.literal(String.format("%d/%d/%d/%d/%d/%d",

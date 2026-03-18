@@ -32,6 +32,7 @@ import com.newbulaco.showdown.client.tooltip.PokemonTooltipRenderer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import com.newbulaco.showdown.client.ShowdownKeybinds;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ScreenEvent;
@@ -629,7 +630,7 @@ public class BattleOverlayRenderer {
 
     private static void renderMoveTooltip(GuiGraphics graphics, ClientBattle battle, Minecraft mc) {
         try {
-            if (!Screen.hasShiftDown()) return;
+            if (!ShowdownKeybinds.isShowInfoDown()) return;
             if (mc.screen == null || !isInMoveSelection(mc.screen)) return;
 
             var pendingRequests = battle.getPendingActionRequests();

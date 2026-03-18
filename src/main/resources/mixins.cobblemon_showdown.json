@@ -8,7 +8,9 @@
   "client": [
     "client.PCGUIMixin",
     "client.BattleSwitchPokemonSelectionMixin",
-    "client.ItemStackMixin"
+    "client.ItemStackMixin",
+    "client.InfoWidgetMixin",
+    "client.MovesWidgetMixin"
   ],
   "mixins": [
     "GraalShowdownServiceMixin",

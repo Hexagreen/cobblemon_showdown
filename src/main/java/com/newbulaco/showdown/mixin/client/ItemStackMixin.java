@@ -8,7 +8,7 @@ import com.cobblemon.mod.common.api.types.ElementalType;
 import com.cobblemon.mod.common.client.storage.ClientParty;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.screens.Screen;
+import com.newbulaco.showdown.client.ShowdownKeybinds;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -53,30 +53,30 @@ public class ItemStackMixin {
 
         List<Component> tooltip = cir.getReturnValue();
 
-        boolean shiftHeld = Screen.hasShiftDown();
-        boolean ctrlHeld = Screen.hasControlDown();
+        boolean infoHeld = ShowdownKeybinds.isShowInfoDown();
+        boolean learnersHeld = ShowdownKeybinds.isShowPartyLearnersDown();
 
-        if (!shiftHeld && !ctrlHeld) {
+        if (!infoHeld && !learnersHeld) {
             tooltip.add(Component.literal("Hold ")
                     .withStyle(ChatFormatting.DARK_GRAY)
-                    .append(Component.literal("SHIFT")
+                    .append(Component.literal(ShowdownKeybinds.getShowInfoKeyName())
                             .withStyle(ChatFormatting.YELLOW))
                     .append(Component.literal(" for move info")
                             .withStyle(ChatFormatting.DARK_GRAY)));
             tooltip.add(Component.literal("Hold ")
                     .withStyle(ChatFormatting.DARK_GRAY)
-                    .append(Component.literal("CTRL")
+                    .append(Component.literal(ShowdownKeybinds.getShowPartyLearnersKeyName())
                             .withStyle(ChatFormatting.AQUA))
                     .append(Component.literal(" for party learners")
                             .withStyle(ChatFormatting.DARK_GRAY)));
             return;
         }
 
-        if (shiftHeld) {
+        if (infoHeld) {
             cobblemonShowdown$addMoveInfo(tooltip, move);
         }
 
-        if (ctrlHeld) {
+        if (learnersHeld) {
             cobblemonShowdown$addPartyLearners(tooltip, move, player);
         }
     }
