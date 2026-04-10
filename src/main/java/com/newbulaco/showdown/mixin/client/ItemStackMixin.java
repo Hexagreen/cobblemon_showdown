@@ -11,11 +11,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.newbulaco.showdown.util.ComponentUtil;
 import net.minecraft.ChatFormatting;
 import com.newbulaco.showdown.client.ShowdownKeybinds;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.StringSplitter;
-import net.minecraft.client.gui.Font;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
@@ -30,7 +26,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 // adds move info and party learner info to SimpleTMs TM/TR item tooltips.
 // shift shows move details, ctrl shows which party pokemon can learn the move.
@@ -65,18 +60,14 @@ public class ItemStackMixin {
         boolean learnersHeld = ShowdownKeybinds.isShowPartyLearnersDown();
 
         if (!infoHeld && !learnersHeld) {
-            tooltip.add(
-                    Component.translatable(
-                            "tooltip.cobblemon_showdown.tm_info.move",
-                            ShowdownKeybinds.getShowInfoKeyName().copy().withStyle(ChatFormatting.YELLOW)
-                    ).withStyle(ChatFormatting.DARK_GRAY)
-            );
-            tooltip.add(
-                    Component.translatable(
-                            "tooltip.cobblemon_showdown.tm_info.learner",
-                            ShowdownKeybinds.getShowPartyLearnersKeyName().copy().withStyle(ChatFormatting.AQUA)
-                    ).withStyle(ChatFormatting.DARK_GRAY)
-            );
+            tooltip.add(Component.translatable(
+                "tooltip.cobblemon_showdown.tm_info.move",
+                ShowdownKeybinds.getShowInfoKeyName().copy().withStyle(ChatFormatting.YELLOW)
+            ).withStyle(ChatFormatting.DARK_GRAY));
+            tooltip.add(Component.translatable(
+                "tooltip.cobblemon_showdown.tm_info.learner",
+                ShowdownKeybinds.getShowPartyLearnersKeyName().copy().withStyle(ChatFormatting.AQUA)
+            ).withStyle(ChatFormatting.DARK_GRAY));
             return;
         }
 
@@ -93,16 +84,15 @@ public class ItemStackMixin {
     private void cobblemonShowdown$addMoveInfo(List<Component> tooltip, MoveTemplate move) {
         tooltip.add(Component.empty());
         tooltip.add(Component.translatable("tooltip.cobblemon_showdown.move_info")
-                .withStyle(ChatFormatting.YELLOW, ChatFormatting.UNDERLINE));
+            .withStyle(ChatFormatting.YELLOW, ChatFormatting.UNDERLINE));
 
         ElementalType type = move.getElementalType();
         // ChatFormatting typeColor = cobblemonShowdown$getTypeColor(type.getName());
         // Use Cobblemon type color
-        tooltip.add(
-                Component.translatable(
-                        "tooltip.cobblemon_showdown.move_info.type",
-                        type.getDisplayName().setStyle(Style.EMPTY.withBold(true).withColor(type.getHue()))
-                ).withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable(
+            "tooltip.cobblemon_showdown.move_info.type",
+            type.getDisplayName().setStyle(Style.EMPTY.withBold(true).withColor(type.getHue()))
+        ).withStyle(ChatFormatting.GRAY));
 
         DamageCategory category = move.getDamageCategory();
         ChatFormatting catColor = switch (category.getName().toLowerCase()) {
@@ -110,34 +100,30 @@ public class ItemStackMixin {
             case "special" -> ChatFormatting.BLUE;
             default -> ChatFormatting.GRAY;
         };
-        tooltip.add(
-                Component.translatable(
-                        "tooltip.cobblemon_showdown.move_info.category",
-                        category.getDisplayName().copy().withStyle(catColor)
-                ).withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable(
+            "tooltip.cobblemon_showdown.move_info.category",
+            category.getDisplayName().copy().withStyle(catColor)
+        ).withStyle(ChatFormatting.GRAY));
 
         double power = move.getPower();
-        tooltip.add(
-                Component.translatable(
-                        "tooltip.cobblemon_showdown.move_info.power",
-                        Component.literal(power > 0 ? String.valueOf((int) power) : "-")
-                                .withStyle(ChatFormatting.WHITE)
-                ).withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable(
+            "tooltip.cobblemon_showdown.move_info.power",
+            Component.literal(power > 0 ? String.valueOf((int) power) : "-")
+                .withStyle(ChatFormatting.WHITE)
+        ).withStyle(ChatFormatting.GRAY));
 
         double accuracy = move.getAccuracy();
-        tooltip.add(
-                Component.translatable(
-                        "tooltip.cobblemon_showdown.move_info.accuracy",
-                        Component.literal(accuracy > 0 ? String.valueOf((int) accuracy) : "-")
-                                .withStyle(ChatFormatting.WHITE)
-                ).withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable(
+            "tooltip.cobblemon_showdown.move_info.accuracy",
+            Component.literal(accuracy > 0 ? String.valueOf((int) accuracy) : "-")
+                .withStyle(ChatFormatting.WHITE)
+        ).withStyle(ChatFormatting.GRAY));
 
-        tooltip.add(
-                Component.translatable(
-                        "tooltip.cobblemon_showdown.move_info.pp",
-                        Component.literal(String.valueOf(move.getPp()))
-                                .withStyle(ChatFormatting.WHITE)
-                ).withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable(
+            "tooltip.cobblemon_showdown.move_info.pp",
+            Component.literal(String.valueOf(move.getPp()))
+                .withStyle(ChatFormatting.WHITE)
+        ).withStyle(ChatFormatting.GRAY));
 
         try {
             var desc = move.getDescription();
@@ -147,7 +133,7 @@ public class ItemStackMixin {
                 List<Component> lines = ComponentUtil.wrapText(desc, 160);
                 for (Component line : lines) {
                     tooltip.add(Component.empty().withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY)
-                            .append("  ").append(line));
+                        .append("  ").append(line));
                 }
             }
         } catch (Exception e) {
@@ -192,11 +178,10 @@ public class ItemStackMixin {
                     if (i > 0) names.append(", ");
                     names.append(canLearn.get(i).getSpecies().getTranslatedName());
                 }
-                tooltip.add(
-                        Component.translatable(
-                                "tooltip.cobblemon_showdown.party_learner.can_learn",
-                                names.withStyle(ChatFormatting.WHITE)
-                        ).withStyle(ChatFormatting.GREEN));
+                tooltip.add(Component.translatable(
+                    "tooltip.cobblemon_showdown.party_learner.can_learn",
+                    names.withStyle(ChatFormatting.WHITE)
+                ).withStyle(ChatFormatting.GREEN));
             }
 
             if (!alreadyKnows.isEmpty()) {
@@ -205,11 +190,10 @@ public class ItemStackMixin {
                     if (i > 0) names.append(", ");
                     names.append(alreadyKnows.get(i).getSpecies().getTranslatedName());
                 }
-                tooltip.add(
-                        Component.translatable(
-                                "tooltip.cobblemon_showdown.party_learner.already_knows",
-                                names.withStyle(ChatFormatting.WHITE)
-                        ).withStyle(ChatFormatting.YELLOW));
+                tooltip.add(Component.translatable(
+                    "tooltip.cobblemon_showdown.party_learner.already_knows",
+                    names.withStyle(ChatFormatting.WHITE)
+                ).withStyle(ChatFormatting.YELLOW));
             }
 
             if (!cannotLearn.isEmpty()) {
@@ -218,16 +202,15 @@ public class ItemStackMixin {
                     if (i > 0) names.append(", ");
                     names.append(cannotLearn.get(i).getSpecies().getTranslatedName());
                 }
-                tooltip.add(
-                        Component.translatable(
-                                "tooltip.cobblemon_showdown.party_learner.cannot_learn",
-                                names.withStyle(ChatFormatting.DARK_GRAY)
-                        ).withStyle(ChatFormatting.RED));
+                tooltip.add(Component.translatable(
+                    "tooltip.cobblemon_showdown.party_learner.cannot_learn",
+                    names.withStyle(ChatFormatting.DARK_GRAY)
+                ).withStyle(ChatFormatting.RED));
             }
 
             if (canLearn.isEmpty() && alreadyKnows.isEmpty() && cannotLearn.isEmpty()) {
                 tooltip.add(Component.translatable("tooltip.cobblemon_showdown.party_learner.nobody")
-                        .withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
+                    .withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
             }
 
         } catch (Exception e) {
@@ -324,8 +307,8 @@ public class ItemStackMixin {
         for (String word : words) {
             if (!word.isEmpty()) {
                 result.append(Character.toUpperCase(word.charAt(0)))
-                        .append(word.substring(1).toLowerCase())
-                        .append(" ");
+                    .append(word.substring(1).toLowerCase())
+                    .append(" ");
             }
         }
         return result.toString().trim();

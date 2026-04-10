@@ -22,7 +22,8 @@ public class PCSortPanel {
     private static final int BUTTON_HEIGHT = 12;
     private static final int BUTTON_SPACING = 1;
     private static final int PANEL_WIDTH = 90;
-    private static final int PANEL_HEIGHT = (PCSortManager.SortCriteria.values().length + 2) * (BUTTON_HEIGHT + BUTTON_SPACING) - BUTTON_SPACING * 3;
+    private static final int PANEL_HEIGHT =
+        (PCSortManager.SortCriteria.values().length + 2) * (BUTTON_HEIGHT + BUTTON_SPACING) - BUTTON_SPACING * 3;
 
     private final int x;
     private final int y;
@@ -55,7 +56,8 @@ public class PCSortPanel {
             Component.translatable("cobblemon_showdown.pc_sort.sort").withStyle(ChatFormatting.WHITE),
             btn -> toggleExpanded()
         ).bounds(x, y, TOGGLE_WIDTH, TOGGLE_HEIGHT).build();
-        toggleButton.setTooltip(Tooltip.create(Component.translatable("cobblemon_showdown.pc_sort.sort.description")));
+        toggleButton.setTooltip(Tooltip.create(
+            Component.translatable("cobblemon_showdown.pc_sort.sort.description")));
 
         ascDescButton = Button.builder(
             Component.literal("▲").withStyle(ChatFormatting.GREEN),
@@ -64,19 +66,22 @@ public class PCSortPanel {
                 updateAscDescButton();
             }
         ).bounds(x + 3, y + TOGGLE_HEIGHT + 2, 19, BUTTON_HEIGHT).build();
-        ascDescButton.setTooltip(Tooltip.create(Component.translatable("cobblemon_showdown.pc_sort.order.description")));
+        ascDescButton.setTooltip(Tooltip.create(
+            Component.translatable("cobblemon_showdown.pc_sort.order.description")));
 
         sortBoxButton = Button.builder(
             Component.translatable("cobblemon_showdown.pc_sort.sort_box").withStyle(ChatFormatting.AQUA),
             btn -> sortCurrentBox()
         ).bounds(x + 24, y + TOGGLE_HEIGHT + 2, 29, BUTTON_HEIGHT).build();
-        sortBoxButton.setTooltip(Tooltip.create(Component.translatable("cobblemon_showdown.pc_sort.sort_box.description")));
+        sortBoxButton.setTooltip(Tooltip.create(
+            Component.translatable("cobblemon_showdown.pc_sort.sort_box.description")));
 
         sortAllButton = Button.builder(
             Component.translatable("cobblemon_showdown.pc_sort.sort_all").withStyle(ChatFormatting.GOLD),
             btn -> sortAllBoxes()
         ).bounds(x + 55, y + TOGGLE_HEIGHT + 2, 29, BUTTON_HEIGHT).build();
-        sortAllButton.setTooltip(Tooltip.create(Component.translatable("cobblemon_showdown.pc_sort.sort_all.description")));
+        sortAllButton.setTooltip(Tooltip.create(
+            Component.translatable("cobblemon_showdown.pc_sort.sort_all.description")));
 
         int buttonY = y + TOGGLE_HEIGHT + 2 + BUTTON_HEIGHT + BUTTON_SPACING + 2;
         for (PCSortManager.SortCriteria criteria : PCSortManager.SortCriteria.values()) {
@@ -85,7 +90,8 @@ public class PCSortPanel {
                 getShortName(criteria),
                 b -> selectCriteria(c)
             ).bounds(x + 3, buttonY, PANEL_WIDTH - 9, BUTTON_HEIGHT).build();
-            btn.setTooltip(Tooltip.create(Component.translatable("cobblemon_showdown.pc_sort.sort_by" , criteria.getTranslatedName())));
+            btn.setTooltip(Tooltip.create(Component.translatable(
+                "cobblemon_showdown.pc_sort.sort_by" , criteria.getTranslatedName())));
             criteriaButtons.add(btn);
             buttonY += BUTTON_HEIGHT + BUTTON_SPACING;
         }
@@ -100,19 +106,23 @@ public class PCSortPanel {
     private void toggleExpanded() {
         expanded = !expanded;
         if (expanded) {
-            toggleButton.setMessage(Component.translatable("cobblemon_showdown.pc_sort.sort.expanded").withStyle(ChatFormatting.WHITE));
+            toggleButton.setMessage(Component.translatable("cobblemon_showdown.pc_sort.sort.expanded")
+                .withStyle(ChatFormatting.WHITE));
         } else {
-            toggleButton.setMessage(Component.translatable("cobblemon_showdown.pc_sort.sort").withStyle(ChatFormatting.WHITE));
+            toggleButton.setMessage(Component.translatable("cobblemon_showdown.pc_sort.sort")
+                .withStyle(ChatFormatting.WHITE));
         }
     }
 
     private void updateAscDescButton() {
         if (sortManager.isAscending()) {
             ascDescButton.setMessage(Component.literal("▲").withStyle(ChatFormatting.GREEN));
-            ascDescButton.setTooltip(Tooltip.create(Component.translatable("cobblemon_showdown.pc_sort.order.ascending")));
+            ascDescButton.setTooltip(Tooltip.create(
+                Component.translatable("cobblemon_showdown.pc_sort.order.ascending")));
         } else {
             ascDescButton.setMessage(Component.literal("▼").withStyle(ChatFormatting.RED));
-            ascDescButton.setTooltip(Tooltip.create(Component.translatable("cobblemon_showdown.pc_sort.order.descending")));
+            ascDescButton.setTooltip(Tooltip.create(
+                Component.translatable("cobblemon_showdown.pc_sort.order.descending")));
         }
     }
 
@@ -127,9 +137,15 @@ public class PCSortPanel {
         for (PCSortManager.SortCriteria criteria : PCSortManager.SortCriteria.values()) {
             Button btn = criteriaButtons.get(index);
             if (criteria == current) {
-                btn.setMessage(Component.translatable("cobblemon_showdown.pc_sort.selected", getShortName(criteria)).withStyle(ChatFormatting.YELLOW));
+                btn.setMessage(Component.translatable(
+                    "cobblemon_showdown.pc_sort.selected",
+                    getShortName(criteria)
+                ).withStyle(ChatFormatting.YELLOW));
             } else {
-                btn.setMessage(Component.translatable("cobblemon_showdown.pc_sort.not_selected", getShortName(criteria)).withStyle(ChatFormatting.GRAY));
+                btn.setMessage(Component.translatable(
+                    "cobblemon_showdown.pc_sort.not_selected",
+                    getShortName(criteria)
+                ).withStyle(ChatFormatting.GRAY));
             }
             index++;
         }
@@ -250,9 +266,11 @@ public class PCSortPanel {
     public void setExpanded(boolean expanded) {
         this.expanded = expanded;
         if (expanded) {
-            toggleButton.setMessage(Component.translatable("cobblemon_showdown.pc_sort.sort.expanded").withStyle(ChatFormatting.WHITE));
+            toggleButton.setMessage(Component.translatable("cobblemon_showdown.pc_sort.sort.expanded")
+                .withStyle(ChatFormatting.WHITE));
         } else {
-            toggleButton.setMessage(Component.translatable("cobblemon_showdown.pc_sort.sort").withStyle(ChatFormatting.WHITE));
+            toggleButton.setMessage(Component.translatable("cobblemon_showdown.pc_sort.sort")
+                .withStyle(ChatFormatting.WHITE));
         }
     }
 }
